@@ -53,7 +53,7 @@ pipeline {
 
         stage('Deploy Container on The Devserver'){
             steps {
-                    sshagent(['devserver_bobosunne']) {
+                    sshagent(['dev_server']) {
                 sh 'ssh -o StrictHostKeyChecking=no bobosunne@192.168.1.85'
                 sh 'docker run -d -p 8081:80 --name dockerapp_test sundayfagbuaro/testapp:v2.0'
                 }
