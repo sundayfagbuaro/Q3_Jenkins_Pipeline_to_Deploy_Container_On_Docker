@@ -1,23 +1,15 @@
-node('master') {
-  stage('Git Checkout and set agent'){
-    git credentialsId: 'git', url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline_to_Deploy_Container_On_Docker.git'
-     
-    
-    if (env.BRANCH_NAME == 'main') {
-        AGENT_LABEL = "JENKINS-AGENT-1"
-     } else {
-        AGENT_LABEL = "JENKINS-AGENT-2"
-     }
-   }
-}
-    
-
 pipeline {
     agent {
-       label "${AGENT_LABEL}"
+       label "JENKINS-AGENT-1"
     }
 
     stages {
+        stage('SCM Checkout'){
+            steps {
+                git credentialsId: 'git', url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline_to_Deploy_Container_On_Docker.git'
+            }
+        }
+
         stage('Build Docker Image') {
            steps {
               echo "Running in ${AGENT_LABEL}"
