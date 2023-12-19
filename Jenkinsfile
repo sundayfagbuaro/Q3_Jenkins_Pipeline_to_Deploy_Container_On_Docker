@@ -1,19 +1,3 @@
-#def AGENT_LABEL = null
-
-#node('master') {
-#  stage('Checkout and set agent'){
-#     checkout scm
-#     ### Or just use any other approach to figure out agent label: read file, etc
-#    if (env.BRANCH_NAME == 'main') {
-#        AGENT_LABEL = "prod"
-#     } else {
-#        AGENT_LABEL = "JENKINS-AGENT-1"
-#     }
-#   }
-#}
-
-def AGENT_LABEL = null
-
 node('master') {
   stage('Git Checkout and set agent'){
     git credentialsId: 'git', url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline_to_Deploy_Container_On_Docker.git'
