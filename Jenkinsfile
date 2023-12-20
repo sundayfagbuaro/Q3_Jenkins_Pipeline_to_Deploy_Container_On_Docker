@@ -1,25 +1,24 @@
 pipeline {
-    agent {
-       label "JENKINS-AGENT-1"
-    }
-
+    agent any
+    
     stages {
-        stage('SCM Checkout'){
+        stage('SCM Checkout') {
             steps {
+                // cloning repo
                 git credentialsId: 'git', url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline_to_Deploy_Container_On_Docker.git'
             }
         }
 
         stage('Build Docker Image') {
-           steps {
-              echo "Running in ${AGENT_LABEL}"
-              sh 'docker build -t sundayfagbuaro/testapp:v2.0 .'
-           }
-        } 
-
-        stage ("Push Docker Docker Image") {
             steps {
-                    echo "Running on ${AGENT_LABEL}"
+                echo "Building the image"
+                sh 'docker build -t sundayfagbuaro/testapp:v2.0 .'
+            }
+        }
+
+        stage ("Push Docker Image") {
+            steps {
+                    echo "Pushing the built image to docker hub"
                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
                 sh 'docker login -u sundayfagbuaro -p ${DockerHubPwd}' 
                 }
@@ -27,16 +26,17 @@ pipeline {
             }
         }
 
-        stage('Deploy Container on The Devserver'){
+        stage('Run Container on The Dev Server') {
             steps {
+                script {
                     sshagent(['dev_server']) {
-                sh 'ssh -o StrictHostKeyChecking=no bobosunne@192.168.1.85'
-                sh 'docker run -d -p 8081:80 --name dockerapp_test sundayfagbuaro/testapp:v2.0'
+                        sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.85 << EOF
+                        docker run -d -p 8082:80 --name dockerapp_new sundayfagbuaro/testapp:v1.0
+                        exit
+                        EOF"""
+                    }
                 }
             }
-        
         }
-
     }
 }
-
