@@ -1,9 +1,14 @@
 #div1 {
     background-color: bisque;
-    padding: 30%;
+    padding: 10%;
     margin: 20%;
     border-style: dotted;
     border-color: black;
-    width: 50%;
-    height: 50;
+    width: 25%;
+    height: 25%;
+}
+
+body {
+    background-color: black;
+    width: 100%;
 }

@@ -27,7 +27,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
                 sh 'docker login -u sundayfagbuaro -p ${DockerHubPwd}' 
                 }
-                sh 'docker push sundayfagbuaro/jenkdockapp:v3.0'
+                sh 'docker push sundayfagbuaro/jenkdockapp:v3.1'
             }
         }
 
@@ -38,7 +38,7 @@ pipeline {
                         sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.85 << EOF
                         docker stop jenkdockapp
                         docker rm jenkdockapp
-                        docker run -d -p 8080:80 --name jenkdockapp sundayfagbuaro/jenkdockapp:v3.0
+                        docker run -d -p 8080:80 --name jenkdockapp sundayfagbuaro/jenkdockapp:v3.1
                         exit
                         EOF"""
                     }
