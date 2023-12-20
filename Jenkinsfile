@@ -36,6 +36,8 @@ pipeline {
                 script {
                     sshagent(['dev_server']) {
                         sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.85 << EOF
+                        docker stop jenkdockapp
+                        docker delete jenkdockapp
                         docker run -d -p 8080:80 --name jenkdockapp sundayfagbuaro/jenkdockapp:v3.0
                         exit
                         EOF"""
