@@ -36,7 +36,7 @@ pipeline {
                 script {
                     sshagent(['dev_server']) {
                         sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.85 << EOF
-                        docker run -d -p 8082:80 --name dockerapp_new sundayfagbuaro/testapp:v1.0
+                        docker run -d -p 8080:80 --name jenkdockapp sundayfagbuaro/jenkdockapp:v3.0
                         exit
                         EOF"""
                     }
