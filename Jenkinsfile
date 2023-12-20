@@ -5,7 +5,7 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 // cloning repo
-                git credentialsId: 'git', url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline_to_Deploy_Container_On_Docker.git'
+                git credentialsId: 'git', url: 'https://github.com/sundayfagbuaro/Q3_Jenkins_Pipeline.git'
             }
         }
 
