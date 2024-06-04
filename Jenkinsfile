@@ -31,17 +31,28 @@ pipeline {
          }
 	}
 
-        stage('Run Container on Docker Host') {
-            steps {
-                script {
-                    sshagent(['bobosunne-test-svr']) {
-        		sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.158 << EOF
-            		docker run -d -p 8082:80 --name docker-test2-new sundayfagbuaro/docker-test:2.0
-            		exit
-            		EOF"""
-        		}
-		}
-            }
+        stage('Deploy Container To Docker Host'){
+        sshagent(['bobosunne-test-svr']) {
+        sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.158 << EOF
+            docker run -d -p 8082:80 --name docker-test2-new sundayfagbuaro/docker-test:2.0
+            exit
+            EOF"""
         }
     }
+    }
 }
+        
+
+
+//    stage('Run Container on Docker Host') {
+//            steps {
+//                script {
+//                    sshagent(['bobosunne-test-svr']) {
+//        		sh """ssh -tt -o StrictHostKeyChecking=no bobosunne@192.168.1.158 << EOF            		
+//                    docker run -d -p 8082:80 --name docker-test2-new sundayfagbuaro/docker-test:2.0
+//            		exit
+//            		EOF"""
+//        		}
+//		    }
+//            }
+//        }
